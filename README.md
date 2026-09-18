@@ -135,6 +135,17 @@ No hay dependencias. Las tipografías (Barlow Condensed, IBM Plex Sans y IBM Ple
 - **GitHub Pages**: Settings → Pages → *Deploy from a branch* → rama `main`, carpeta `/ (root)`. La demo queda en `https://edgardoomer.github.io/SEP-DOOM/`.
 - **Netlify**: arrastra la carpeta del repositorio al panel de despliegue.
 
+## Desarrollo
+
+Autor: **Ing. Edgar Izurieta**. La configuración del separador, los set points
+de alarma, los lazos de control y el flujograma causa-efecto provienen de la
+operación real.
+
+La implementación del simulador se hizo con asistencia de **Claude
+(Anthropic)**, usado como herramienta de apoyo en la escritura y revisión del
+código. La responsabilidad sobre el contenido técnico y los resultados es del
+autor.
+
 ## Créditos
 
 <p align="center"><img src="creditos/logo_petrodoom.png" alt="PetroDoom — Doom Slayer Unit" width="320"></p>
@@ -146,4 +157,4 @@ No hay dependencias. Las tipografías (Barlow Condensed, IBM Plex Sans y IBM Ple
 - Sitio web: <https://edgarpetrolero.duckdns.org/>
 - GitHub: <https://github.com/edgardoomer>
 
-Configuración del separador, set points de alarma y flujograma causa-efecto aportados desde la operación real; desarrollo del simulador con apoyo de Claude (Anthropic).
+Configuración del separador, set points de alarma y flujograma causa-efecto aportados desde la operación real.
