@@ -1,0 +1,317 @@
+flowchart TD
+    %% Arrastre de líquido en el gas de salida (carry-over) — generado con FlujoCE el 2026-09-18
+    n1(["Inicio"])
+    n2["MAL FUNCIONAMIENTO EN VALVULA DE AGUA - NO ABRE"]
+    n4["MAL FUNCIONAMIENTO EN VALVULA DE AGUA - NO CIERRA"]
+    n6["MAL FUNCIONAMIENTO EN VALVULA DE PETROLEO - NO CIERRA"]
+    n7["MAL FUNCIONAMIENTO EN VALVULA DE AGUA - NO ABRE"]
+    n8("CARRY OVER - ARRASTRE DE LIQUIDO EN LINEA DE GAS")
+    n9["AUMENTO DE NIVEL TOTAL"]
+    n10["PLACA ORIFICIO MAL DIMENSIONADA - MUY PEQUEÑA"]
+    n11{"¿SE MANEJA?"}
+    n12["SE ABRE VALVULA BYPASS DE AGUA"]
+    n15(["FIN"])
+    n3("PETROLEO EN TANQUES DE AGUA")
+    n16["PERDIDA DE COLCHON DE AGUA"]
+    n17{"¿SE MANEJA?"}
+    n21(["FIN"])
+    n5["LIMPIEZA DE STAND PIPE"]
+    n22("RETORNO A NIVELES NORMALES")
+    n23["REVISION DE LINEA DE AIRE"]
+    n13["SEPARADOR MODO MANUAL"]
+    n14["LIMPIEZA CON SOLVENTES DE HIDROCARBURO"]
+    n18["DRENAJE DE LIQUIDO EN LINEA O TAPONAMIENTOS"]
+    n19(["FIN"])
+    n20["SE CIERRAN VALVULAS DE LINEA PRINCIPAL DE AGUA"]
+    n24["LIMPIEZA DE STAND PIPE"]
+    n25("RETORNO A NIVELES NORMALES")
+    n26["REVISION DE LINEA DE AIRE"]
+    n27["SEPARADOR MODO MANUAL"]
+    n28["LIMPIEZA CON SOLVENTES DE HIDROCARBURO"]
+    n29["DRENAJE DE LIQUIDO EN LINEA O TAPONAMIENTOS"]
+    n30(["FIN"])
+    n32("ARRASTRE DE GAS HACIA TANQUES DE ALMACENAMIENTO - BURBUJEO")
+    n33["PERDIDA DE NIVEL DE PETROLEO"]
+    n34{"¿SE MANEJA?"}
+    n35(["FIN"])
+    n36["SE CIERRAN VALVULAS DE LINEA PRINCIPAL DE PETROLEO"]
+    n37["LIMPIEZA DE STAND PIPE"]
+    n38("RETORNO A NIVELES NORMALES")
+    n39["REVISION DE LINEA DE AIRE"]
+    n40["SEPARADOR MODO MANUAL"]
+    n41["LIMPIEZA CON SOLVENTES DE HIDROCARBURO"]
+    n42["DRENAJE DE LIQUIDO EN LINEA O TAPONAMIENTOS"]
+    n43(["FIN"])
+    n44("CARRY OVER - ARRASTRE DE LIQUIDO EN LINEA DE GAS")
+    n45["AUMENTO DE NIVEL TOTAL"]
+    n46{"¿SE MANEJA?"}
+    n47(["FIN"])
+    n48["SE ABRE VALVULA DE BYPASS DE PETROLEO"]
+    n49["LIMPIEZA DE STAND PIPE"]
+    n50("RETORNO A NIVELES NORMALES")
+    n51["REVISION DE LINEA DE AIRE"]
+    n52["SEPARADOR MODO MANUAL"]
+    n53["LIMPIEZA CON SOLVENTES DE HIDROCARBURO"]
+    n54["DRENAJE DE LIQUIDO EN LINEA O TAPONAMIENTOS"]
+    n55(["FIN"])
+    n31["MAL FUNCIONAMIENTO EN VALVULA DE GAS PCV - NO ABRE"]
+    n56["MAL FUNCIONAMIENTO EN VALVULA DE GAS - NO CIERRA"]
+    n57("APERTURA DE PSV - PERDIDA DE PRESION- AUMENTO DE NIVEL TOTAL")
+    n58["AUMENTO DE PRESION EN SEPARADOR"]
+    n59{"¿SE MANEJA?"}
+    n60(["FIN"])
+    n61["SE CAMBIA PLACA ORIFICIO"]
+    n63("RETORNO A NIVELES NORMALES")
+    n64["REVISION DE CORRECTA INSTALACION DE PLACA ORIFICIO"]
+    n68(["FIN"])
+    n62("APERTURA DE PSV - PERDIDA DE PRESION- AUMENTO DE NIVEL TOTAL - ESTALLIDO DE VASIJA POR SOBREPRESIÓN")
+    n65["AUMENTO DE PRESION EN SEPARADOR"]
+    n66{"¿SE MANEJA?"}
+    n67(["FIN"])
+    n69["CAMBIO DE TIT"]
+    n70("RETORNO A NIVELES NORMALES")
+    n71["SE ABRE VALVULA BYPASS DE GAS"]
+    n72(["FIN"])
+    n73["SEPARADOR EN MODO MANUAL"]
+    n74("CARRY OVER - IMPLOSION DE SEPARADOR")
+    n75["DISMINUCION DE PRESION DE SEPARADOR - AUMENTO DE NIVEL TOTAL DE FLUIDO"]
+    n76{"¿SE MANEJA?"}
+    n77(["FIN"])
+    n78["CAMBIO DE TIT"]
+    n79("RETORNO A NIVELES NORMALES")
+    n80["CIERRE DE VALVULAS DE LINEA PRINCIPAL DE GAS"]
+    n81(["FIN"])
+    n82["SEPARADOR EN MODO MANUAL"]
+    n83["BACHE DE GAS"]
+    n84["AUMENTO REPENTINO DE PRESION"]
+    n86("ARRASTRE DE GAS HACIA TANQUES DE ALMACENAMIENTO - BURBUJEO")
+    n87{"¿SE MANEJA?"}
+    n85(["FIN"])
+    n88["APERTURA DE VALVULA BYPASS DE GAS"]
+    n89("RETORNO A PRESION NORMAL DE SEPARADOR")
+    n90["EXCESO DE SOLIDOS"]
+    n91["TAPONAMIENTO DE LINEAS - CIERRE O APERTURA INCOMPLETA"]
+    n92{"¿SE MANEJA?"}
+    n93("CARRY OVER - SOLIDOS EN TANQUES DE ALMACENAMIENTO")
+    n94(["FIN"])
+    n95["LIMPIEZA INTERIOR DE SEPARADOR - INSTALACION DE DESARENADORES"]
+    n96("RETORNO A OPERACION NORMAL DE SEPARADOR")
+    n97[/"ALARMA DE NIVEL DE INTERFASE H Y HH"/]
+    n98[/"ALARMA DE NIVEL DE INTERFASE L Y LL"/]
+    n99[/"ALARMA DE NIVEL DE PETROLEO L Y LL"/]
+    n100[/"ALARMA DE NIVEL DE PETROLEO H Y HH"/]
+    n101[/"ALARMA DE PRESION DE PETROLEO H Y HH"/]
+
+    n2 --> n9
+    n9 --> n11
+    n11 -->|"SI"| n12
+    n11 -->|"NO"| n8
+    n1 --> n2
+    n8 --> n15
+    n16 --> n17
+    n17 -->|"NO"| n3
+    n3 --> n21
+    n4 --> n16
+    n11 -->|"SI"| n5
+    n11 -->|"SI"| n23
+    n12 --> n13
+    n13 --> n22
+    n14 --> n22
+    n5 --> n14
+    n18 --> n22
+    n23 --> n18
+    n22 --> n19
+    n20 --> n27
+    n27 --> n25
+    n28 --> n25
+    n24 --> n28
+    n29 --> n25
+    n26 --> n29
+    n25 --> n30
+    n17 -->|"SI"| n20
+    n17 -->|"SI"| n24
+    n17 -->|"SI"| n26
+    n33 --> n34
+    n34 -->|"NO"| n32
+    n32 --> n35
+    n36 --> n40
+    n40 --> n38
+    n41 --> n38
+    n37 --> n41
+    n42 --> n38
+    n39 --> n42
+    n38 --> n43
+    n34 -->|"SI"| n36
+    n34 -->|"SI"| n37
+    n34 -->|"SI"| n39
+    n6 --> n33
+    n45 --> n46
+    n46 -->|"NO"| n44
+    n44 --> n47
+    n48 --> n52
+    n52 --> n50
+    n53 --> n50
+    n49 --> n53
+    n54 --> n50
+    n51 --> n54
+    n50 --> n55
+    n46 -->|"SI"| n48
+    n46 -->|"SI"| n49
+    n46 -->|"SI"| n51
+    n7 --> n45
+    n58 --> n59
+    n59 -->|"NO"| n57
+    n57 --> n60
+    n63 --> n68
+    n59 -->|"SI"| n61
+    n59 -->|"SI"| n64
+    n10 --> n58
+    n61 --> n63
+    n64 --> n63
+    n65 --> n66
+    n66 -->|"NO"| n62
+    n62 --> n67
+    n70 --> n72
+    n66 -->|"SI"| n69
+    n66 -->|"SI"| n71
+    n69 --> n70
+    n31 --> n65
+    n1 --> n4
+    n1 --> n6
+    n1 --> n7
+    n1 --> n10
+    n1 --> n31
+    n71 --> n73
+    n73 --> n70
+    n75 --> n76
+    n76 -->|"NO"| n74
+    n74 --> n77
+    n79 --> n81
+    n76 -->|"SI"| n78
+    n76 -->|"SI"| n80
+    n78 --> n79
+    n80 --> n82
+    n82 --> n79
+    n56 --> n75
+    n1 --> n56
+    n83 --> n84
+    n84 --> n87
+    n87 -->|"NO"| n86
+    n86 --> n85
+    n1 --> n83
+    n87 -->|"SI"| n88
+    n88 --> n89
+    n92 -->|"SI"| n95
+    n91 --> n92
+    n90 --> n91
+    n95 --> n96
+    n92 -->|"NO"| n93
+    n93 --> n94
+    n1 --> n90
+    n97 --> n9
+    n98 --> n16
+    n99 --> n33
+    n100 --> n45
+    n101 --> n58
+
+    style n1 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n2 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n4 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n6 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n7 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n8 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n9 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n10 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n11 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n12 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n15 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n3 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n16 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n17 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n21 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n5 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n22 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n23 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n13 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n14 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n18 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n19 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n20 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n24 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n25 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n26 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n27 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n28 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n29 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n30 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n32 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n33 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n34 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n35 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n36 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n37 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n38 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n39 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n40 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n41 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n42 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n43 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n44 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n45 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n46 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n47 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n48 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n49 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n50 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n51 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n52 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n53 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n54 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n55 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n31 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n56 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n57 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n58 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n59 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n60 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n61 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n63 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n64 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n68 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n62 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n65 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n66 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n67 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n69 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n70 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n71 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n72 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n73 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n74 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n75 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n76 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n77 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n78 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n79 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n80 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n81 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n82 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n83 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n84 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n86 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n87 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n85 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n88 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n89 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n90 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style n91 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n92 fill:#fef3c7,stroke:#d97706,color:#78350f
+    style n93 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n94 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style n95 fill:#f8fafc,stroke:#334155,color:#0f172a
+    style n96 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style n97 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
+    style n98 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
+    style n99 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
+    style n100 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
+    style n101 fill:#ede9fe,stroke:#7c3aed,color:#3b0764

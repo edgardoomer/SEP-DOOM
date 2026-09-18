@@ -1,0 +1,243 @@
+<title>SEP-DOOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f2f4f7; --panel:#ffffff; --panel2:#e9edf2; --line:#d3dae3; --ink:#18212d; --muted:#5b6979;
+  --accent:#b8771a; --accent-soft:rgba(184,119,26,.14);
+  --ok:#1e8f66; --ok-soft:rgba(30,143,102,.12); --alarm:#d43d3d; --alarm-soft:rgba(212,61,61,.12);
+  --water:#2e7fc4; --water-hi:#9ccdf5; --oil:#5e3a10; --oil-hi:#dc9c48; --gas:#e6ebf1; --gas-dot:#4f5d6e;
+  --draw-bg:#fbfcfd; --draw:#1f2a38; --draw-soft:#93a0b0; --glass:rgba(255,255,255,.82); --nappe:#8a5a1e; --sand:#c9a56a;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1117; --panel:#151b23; --panel2:#1e2631; --line:#2a3441; --ink:#e3e9f0; --muted:#8b98a9;
+    --accent:#e6a33f; --accent-soft:rgba(230,163,63,.16);
+    --ok:#3fbf8a; --ok-soft:rgba(63,191,138,.14); --alarm:#f05252; --alarm-soft:rgba(240,82,82,.16);
+    --water:#2b6fb0; --water-hi:#9fd6ff; --oil:#4a2c0c; --oil-hi:#e5a552; --gas:#1c242e; --gas-dot:#c7d2df;
+    --draw-bg:#11161d; --draw:#d9e1ea; --draw-soft:#5a6879; --glass:rgba(255,255,255,.06); --nappe:#b8782c; --sand:#8a6b3a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1117; --panel:#151b23; --panel2:#1e2631; --line:#2a3441; --ink:#e3e9f0; --muted:#8b98a9;
+  --accent:#e6a33f; --accent-soft:rgba(230,163,63,.16);
+  --ok:#3fbf8a; --ok-soft:rgba(63,191,138,.14); --alarm:#f05252; --alarm-soft:rgba(240,82,82,.16);
+  --water:#2b6fb0; --water-hi:#9fd6ff; --oil:#4a2c0c; --oil-hi:#e5a552; --gas:#1c242e; --gas-dot:#c7d2df;
+  --draw-bg:#11161d; --draw:#d9e1ea; --draw-soft:#5a6879; --glass:rgba(255,255,255,.06); --nappe:#b8782c; --sand:#8a6b3a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;font-size:14px;line-height:1.4}
+button{font:inherit;color:inherit}
+.top{display:flex;align-items:center;gap:22px;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:nowrap}
+@media (max-width:1100px){.brand span{display:none}}
+.brand{display:flex;align-items:baseline;gap:12px;min-width:0;flex:0 0 auto}
+.brand b{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;font-size:36px;letter-spacing:.03em;line-height:1;white-space:nowrap}
+.brand span{color:var(--muted);font-size:13px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-left:auto;flex:1 1 auto;min-width:0;font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;font-size:13px;font-variant-numeric:tabular-nums;flex-wrap:wrap}
+.brand img{height:40px;width:auto;align-self:center;border-radius:6px}
+.creditsBtn{border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:3px;padding:3px 11px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.creditsBtn:hover{background:var(--accent);color:#fff}
+.creditsBtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.backdrop{position:fixed;inset:0;background:rgba(8,12,18,.48);z-index:40;opacity:0;pointer-events:none;transition:opacity .3s}
+.backdrop.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(52vw,680px);min-width:min(100vw,400px);background:var(--panel);color:var(--ink);border-left:1px solid var(--line);box-shadow:-16px 0 48px rgba(0,0,0,.28);z-index:41;transform:translateX(102%);transition:transform .38s cubic-bezier(.2,.8,.2,1);overflow-y:auto;padding:22px 30px 30px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box}
+.drawer.open{transform:none}
+@media (max-width:760px){.drawer{width:100vw;min-width:0;padding:18px 20px 26px}}
+@media (prefers-reduced-motion:reduce){.drawer,.backdrop{transition:none}}
+.drawer-close{position:absolute;top:12px;right:14px;width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:var(--panel2);font-size:20px;line-height:1;cursor:pointer;color:var(--muted)}
+.drawer-close:hover{border-color:var(--accent);color:var(--accent)}
+.drawer-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cr-eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cr-logo{display:block;width:min(100%,360px);height:auto;margin:0 auto;border-radius:12px}
+.cr-person{display:flex;gap:16px;align-items:center}
+.cr-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;flex:none;border:3px solid var(--accent-soft)}
+.cr-person h2{margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:28px;letter-spacing:.02em;line-height:1.05}
+.cr-person p{margin:5px 0 0;color:var(--muted);font-size:12.5px;line-height:1.4}
+.cr-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:480px){.cr-links{grid-template-columns:1fr}}
+.cr-links a{display:flex;flex-direction:column;gap:2px;padding:9px 12px;border:1px solid var(--line);border-radius:4px;text-decoration:none;color:var(--ink);background:var(--panel2);min-width:0}
+.cr-links a:hover{border-color:var(--accent)}
+.cr-links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cr-links .k{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;font-size:12.5px;text-transform:uppercase;color:var(--accent)}
+.cr-links .v{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.cr-qr{display:flex;gap:16px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:4px}
+.cr-qr img{width:128px;height:128px;border-radius:6px;flex:none}
+.cr-qr p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.45}
+.cr-qr p b{display:block;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:500;margin-top:4px;overflow-wrap:anywhere}
+.drawer h3{margin:4px 0 0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.drawer .body{margin:0;font-size:13.5px;line-height:1.55;max-width:64ch}
+.cr-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted)}
+.hud .k{color:var(--muted);font-family:'IBM Plex Sans',sans-serif;font-size:12px;margin-right:4px}
+.chip{display:inline-block;padding:2px 9px;border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;background:var(--panel2);color:var(--muted)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.alarm{background:var(--alarm-soft);color:var(--alarm)}
+.chip.on{background:var(--accent-soft);color:var(--accent)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 368px;gap:14px;padding:14px 20px 28px}
+@media (max-width:1120px){.layout{grid-template-columns:1fr}}
+.stage{display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel{display:flex;flex-direction:column;gap:12px;min-width:0}
+canvas#sim{width:100%;height:auto;display:block;background:var(--draw-bg);border:1px solid var(--line);border-radius:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:12px 14px}
+.card h3{margin:0 0 10px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card h3 small{font-family:'IBM Plex Sans',sans-serif;font-weight:400;letter-spacing:0;text-transform:none;font-size:12px;margin-left:8px}
+.row{display:grid;grid-template-columns:118px 1fr 78px;align-items:center;gap:10px;margin:5px 0}
+.row label{font-size:12.5px;color:var(--muted)}
+.row .val{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:12.5px;text-align:right;white-space:nowrap}
+input[type=range]{width:100%;margin:0;accent-color:var(--accent);height:22px}
+input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+input[type=range]:disabled{opacity:.35}
+.derived{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.derived div{background:var(--panel2);border-radius:3px;padding:6px 8px}
+.derived .k{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.derived .v{font-family:'IBM Plex Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums}
+.fpgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.fpgrid{grid-template-columns:1fr}}
+.fp .row{grid-template-columns:96px 1fr 70px;gap:8px}
+.fp .row.modes{grid-template-columns:96px auto}
+.seg{width:max-content}
+.opwrap{display:flex;align-items:center;min-width:0}
+.opwrap .bar{flex:1}
+.opwrap input[type=range]{flex:1;width:100%}
+.seg.units button{padding:3px 9px}
+.fp .head{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.fp .tag{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;letter-spacing:.04em}
+.fp .desc{font-size:12px;color:var(--muted);flex:1;min-width:0}
+.fp .pvline{display:flex;align-items:baseline;gap:8px;margin:2px 0 6px}
+.fp .pvline .k{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.fp .pv{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1}
+.fp .pv.alarm{color:var(--alarm)}
+.fp .unit{font-size:12px;color:var(--muted)}
+.bar{height:8px;background:var(--panel2);border-radius:2px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .15s linear}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:3px 10px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.08em;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--accent);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.alarms{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.alarms .chip{opacity:.45}
+.alarms .chip.alarm{opacity:1}
+.alset{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:7px;font-variant-numeric:tabular-nums}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--panel2);border-radius:3px;padding:6px 10px;font-size:12.5px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.on{background:var(--alarm-soft);border-color:var(--alarm);color:var(--alarm)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.evmode{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 2px}
+.evmode span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.btn.mini{padding:2px 8px;font-size:11.5px}
+.btn:disabled{opacity:.4;cursor:default}
+.evtitle{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:.03em;margin-top:12px;text-wrap:balance}
+.evmeta{font-size:12px;color:var(--muted);margin:2px 0 6px}
+.evstate{margin:4px 0 8px}
+.evstate .chip{white-space:normal;text-align:left;line-height:1.25;padding:4px 9px}
+.evq{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.08em;color:var(--muted);margin:6px 0 4px}
+.evq .bad{color:var(--alarm)}
+.steps{margin:0;padding:0 0 0 20px;display:flex;flex-direction:column;gap:5px;font-size:12px}
+.steps li{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding:3px 6px 3px 0;border-left:3px solid var(--line);padding-left:8px;margin-left:-8px}
+.steps li.done{border-left-color:var(--ok);color:var(--muted)}
+.steps li.done .lbl{text-decoration:line-through;text-decoration-color:var(--ok)}
+.steps li.run{border-left-color:var(--accent);background:var(--accent-soft)}
+.steps .lbl{flex:1;min-width:0}
+.steps .lbl small{color:var(--muted)}
+.steps .when,.steps .hint{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+.steps .hint{color:var(--accent);white-space:normal;text-align:right;max-width:46%}
+.log{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;max-height:150px;overflow:auto;display:flex;flex-direction:column;gap:2px}
+.log div{display:grid;grid-template-columns:72px 1fr;gap:10px}
+.log .t{color:var(--muted)}
+.log .a{color:var(--alarm)}
+.log .g{color:var(--ok)}
+.trendwrap{position:relative}
+canvas#trend{width:100%;height:232px;display:block}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:18px;height:2px;vertical-align:middle;margin-right:6px}
+.legend i.sp{border-top:2px dashed var(--muted);height:0;background:none}
+.note{font-size:12px;color:var(--muted);margin:6px 0 0;font-variant-numeric:tabular-nums}
+kbd{font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid var(--line);border-radius:3px;padding:0 4px;background:var(--panel2)}
+@media (prefers-reduced-motion: reduce){ .bar i{transition:none} }
+</style>
+
+<header class="top">
+  <div class="brand"><img id="brandLogo" src="__IMG_HEX__" alt="" hidden data-hex><b>SEP-DOOM</b><span>V-100 · separador trifásico · simulación 2D</span></div>
+  <div class="hud">
+    <span><span class="k">t sim</span><span id="tsim">00:00:00</span></span>
+    <span><span class="k">P</span><span id="hP">2.62 barg</span></span>
+    <span><span class="k">interfase</span><span id="hI">0.87 m</span></span>
+    <span><span class="k">petróleo</span><span id="hO">0.76 m</span></span>
+    <span class="chip ok" id="stateChip">Estable</span>
+    <span class="seg units" role="group" aria-label="Sistema de unidades"><button class="on" data-u="si" title="barg · m · m³/h · Sm³/h">SI</button><button data-u="imp" title="psig · ft · bbl/día · MMSCFD">Inglesas</button></span>
+    <button class="creditsBtn" id="creditsBtn" aria-haspopup="dialog" aria-controls="crDrawer">Créditos</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="stage">
+    <canvas id="sim" width="1400" height="580" aria-label="Vista 2D del separador con flujo de gas, petróleo y agua"></canvas>
+    <div id="faceplates" class="fpgrid"></div>
+    <div class="card trendwrap">
+      <h3>Tendencias <small>últimos 10 min de tiempo simulado · pasa el cursor para leer valores</small></h3>
+      <canvas id="trend" height="232" aria-label="Tendencias de presión, interfase y nivel de petróleo"></canvas>
+      <div class="legend"><span><i style="background:var(--gas-dot)"></i>PIC-100 presión</span><span><i style="background:var(--water)"></i>LIC-101 interfase</span><span><i style="background:var(--oil-hi)"></i>LIC-103 nivel petróleo</span><span><i class="sp"></i>set point</span></div>
+    </div>
+    <div class="card">
+      <h3>Registro de eventos</h3>
+      <div class="log" id="log"></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h3>Simulación</h3>
+      <div class="row"><label for="speed">Velocidad</label><input id="speed" type="range" min="1" max="60" value="20"><span class="val" id="speedV">×20</span></div>
+      <div class="btns"><button class="btn" id="pause">Pausar</button><button class="btn" id="reset">Reiniciar a régimen estable</button></div>
+      <div class="row modes" style="margin-top:8px"><label>Drenajes de fondo</label><div class="seg" id="drainSeg"><button class="on" data-d="closed">CERRADOS</button><button data-d="open">ABIERTOS</button></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Alimentación <small>crudo de pozo</small></h3>
+      <div class="row"><label for="qliq">Caudal líquido</label><input id="qliq" type="range" min="0" max="170" value="80"><span class="val" id="qliqV">80 m³/h</span></div>
+      <div class="row"><label for="wc">Corte de agua</label><input id="wc" type="range" min="0" max="95" value="40"><span class="val" id="wcV">40 %</span></div>
+      <div class="row"><label for="gor">GOR</label><input id="gor" type="range" min="0" max="200" value="60"><span class="val" id="gorV">100 Sm³/m³</span></div>
+      <div class="derived">
+        <div><span class="k">Agua</span><span class="v" id="dW">32 m³/h</span></div>
+        <div><span class="k">Petróleo</span><span class="v" id="dO">48 m³/h</span></div>
+        <div><span class="k">Gas</span><span class="v" id="dG">2 880 Sm³/h</span></div>
+      </div>
+      <p class="note" id="dCap" style="margin-top:6px"></p>
+    </div>
+
+    <div class="evmode"><span>Modo de eventos</span><div class="seg" id="evModeSeg"><button data-em="practice">Práctica</button><button class="on" data-em="auto">Automático</button></div></div>
+    <div class="card" id="evCard">
+      <h3>Eventos <small>flujograma causa-efecto</small></h3>
+      <div class="btns" id="evList"></div>
+      <div id="evPanel" hidden></div>
+    </div>
+  </aside>
+</main>
+
+<div class="backdrop" id="crBackdrop"></div>
+<aside class="drawer" id="crDrawer" role="dialog" aria-modal="true" aria-labelledby="crName" aria-hidden="true" inert>
+  <button class="drawer-close" id="crClose" aria-label="Cerrar créditos">×</button>
+  <div class="cr-eyebrow">Créditos</div>
+  <img class="cr-logo" src="__IMG_LOGO__" alt="PetroDoom — Doom Slayer Unit">
+  <div class="cr-person">
+    <img class="cr-photo" src="__IMG_PHOTO__" alt="Fotografía de Edgar Izurieta">
+    <div><h2 id="crName">Ing. Edgar Izurieta</h2><p>Ingeniero en Petróleos | Especialista en Datos e Inteligencia Artificial | Aspirante a Ingeniero de Reservorios / EOR | Creador de Contenido</p></div>
+  </div>
+  <div class="cr-links">
+    <a href="https://www.linkedin.com/in/edgarfer/" target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">linkedin.com/in/edgarfer</span></a>
+    <a href="https://www.instagram.com/doom.petrolero" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v">@doom.petrolero</span></a>
+    <a href="https://edgarpetrolero.duckdns.org/" target="_blank" rel="noopener"><span class="k">Sitio web</span><span class="v">edgarpetrolero.duckdns.org</span></a>
+    <a href="https://github.com/edgardoomer" target="_blank" rel="noopener"><span class="k">GitHub</span><span class="v">github.com/edgardoomer</span></a>
+  </div>
+  <div class="cr-qr"><img src="__IMG_QR__" alt="Código QR del sitio web edgarpetrolero.duckdns.org"><p>Escanea el código para abrir el sitio web<b>edgarpetrolero.duckdns.org/es/</b></p></div>
+  <h3>Objetivo</h3>
+  <p class="body">Explicar de forma didáctica e interactiva cómo funciona un separador trifásico horizontal: qué hace cada internal —deflector, bafle perforado, vertedero y rompevórtices—, cómo los lazos de nivel y presión sostienen el régimen estable y qué ocurre cuando una válvula, la placa orificio o un bache de gas sacan al equipo de su punto de operación.</p>
+  <h3>Resumen del proyecto</h3>
+  <p class="body">SEP-DOOM es una aplicación web educativa que simula en 2D un separador de 7 ft × 32 ft (20 000 BFPD, 3 MMSCFD) mediante balance de masa, vertedero de Francis y controladores PI sobre las válvulas de agua, petróleo y gas. El usuario ajusta la alimentación y los set points, opera bypass, bloqueos y drenajes, alterna entre unidades SI e inglesas y lanza nueve eventos tomados de un flujograma causa-efecto real: en modo automático un operador simulado ejecuta la respuesta del flujograma y en modo práctica la ejecuta el usuario, con alarmas HH/H/L/LL de planta, tendencias en vivo y registro de eventos. Está construida con HTML, CSS y JavaScript puros, sin dependencias, para desplegarse desde GitHub Pages o Netlify.</p>
+  <div class="cr-foot">SEP-DOOM · 2026 · HTML, CSS y JavaScript puros · objetivo + resumen: 174 palabras</div>
+</aside>
