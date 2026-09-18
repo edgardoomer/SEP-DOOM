@@ -132,8 +132,8 @@ No hay dependencias. Las tipografías (Barlow Condensed, IBM Plex Sans y IBM Ple
 
 ## Publicación
 
-- **GitHub Pages**: Settings → Pages → *Deploy from a branch* → rama `main`, carpeta `/ (root)`. La demo queda en `https://edgardoomer.github.io/SEP-DOOM/`.
-- **Netlify**: arrastra la carpeta del repositorio al panel de despliegue.
+- **GitHub Pages**: https://edgardoomer.github.io/SEP-DOOM/
+- **Netlify**: https://sep-doom.netlify.app/
 
 ## Desarrollo
 
